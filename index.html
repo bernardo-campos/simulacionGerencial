@@ -20,7 +20,14 @@
     <div class="contenido">
         <!--form action="index.html" id="prueba" method="post"-->
             <div class="elemento" id="ingreso">
-                <p>Ingresar el precio al que deseas vender (entre 90 y 110): </p>
+                <table>
+                    <tr>
+                        <td>Tu nombre:</td>
+                        <td><input type="text" id="nombreAlumno"></td>
+                    </tr>
+                </table>
+                <p> <strong> Ingresar los precios en que deseas vender (entre 90 y 110): </strong></p>
+                <br>
                 <table>
                     <tr>
                         <td>Período:</td>
@@ -87,6 +94,7 @@
 
 		document.getElementById("export").onclick = function()
         {
+            var nombreAlumno = document.getElementById('nombreAlumno');
     		var precio1 = document.getElementById('precio1');
             var precio2 = document.getElementById('precio2');
             var precio3 = document.getElementById('precio3');
@@ -107,6 +115,7 @@
 
     		model.aoa(
                 [
+                    ["Nombre:", nombreAlumno.value],
                     ["Periodo:", 1,2,3,4,5],
                     ["Precio:", pf1,pf2,pf3,pf4,pf5],
     		        ["Cantidad:", c1,c2,c3,c4,c5]
@@ -117,9 +126,9 @@
     		/* convert to worksheet */
     		var ws = XLSX.utils.aoa_to_sheet(data);
     		/* build new workbook */
-    		var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "NombreAlumno");
+    		var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Hoja1");
     		/* write file */
-    		XLSX.writeFile(wb, "alumno.xlsx")
+    		XLSX.writeFile(wb, nombreAlumno.value + ".xlsx")
 		};
     </script>
 </body>
