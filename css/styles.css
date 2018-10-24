@@ -38,9 +38,11 @@ div.elemento{
 table{
     text-align: center;
     margin: auto;
-    /*margin-bottom: 40px;*/
+    margin-bottom: 40px;
 }
-
+tr td:first-child{
+    width: 120px;
+}
 td{
     text-align: center;
     /*width: 160px;*/
@@ -48,10 +50,9 @@ td{
 
 input[type=text].precio{
     width: 60px;
+    font-family: verdana, geneva, serif;
 }
-p{
-    margin-bottom: 40px;
-}
+
 p span{
     font-size: 25px;
 }
