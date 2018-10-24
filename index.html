@@ -1,0 +1,93 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/styles.css">
+	<!-- KnockoutJS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+	<!-- SheetJS js-xlsx library -->
+	<script src="shim.js"></script>
+	<script src="dist/xlsx.full.min.js"></script>
+    <title>PROYECTO DE INVESTIGACIÓN</title>
+</head>
+<body>
+
+    <div class="contenedor">
+        <header>
+            <h2>Proyecto de Simulación Gerencial</h2>
+        </header>
+    </div>
+
+    <div class="contenido">
+    <form action="index.html" id="prueba" method="post">
+        <div class="elemento" id="ingreso">
+            <p>Ingresar el precio al que deseas vender (entre 90 y 110): </p>
+            <input id="precio" type="text" placeholder="$" >
+            <!--input id="btnIngreso" type="submit" class="button" value="Ingresar"-->
+        </div>
+
+        <div class="elemento" id="salida">
+            <!--p>La cantidad vendida fue: </p>
+            <br>
+            <p><span id="cantidad">0</span> Unidades </p-->
+			<input id="export" type="submit" class="button" value="Exportar Excel" >
+        </div>
+    </form>
+
+    </div>
+
+
+    <footer>
+
+    </footer>
+
+	<script>
+		/* knockout setup */
+		var ViewModel = function() {
+		  /* use an array of arrays */
+		  this.aoa = ko.observableArray();
+		};
+
+		var model = new ViewModel();
+		ko.applyBindings(model);
+		/* do an update to confirm KO was loaded properly */
+
+		function getCantidad( precioFloat ){
+			var coeficientes = [1.40884976676092e-17,
+			7.79461734988912e-16,
+			3.88466972876584e-14,
+			1.66089868116125e-12,
+			5.52756634255933e-11,
+			1.10426162799791e-09,
+			-3.81114326320993e-11,
+			5.02746150976173e-13,
+			-2.99109951822521e-15,
+			6.74966202563564e-18];
+			var cant = 0.0;
+			for(var i=0; i < coeficientes.length ; i++){
+					cant += coeficientes[i] * precioFloat**i;
+			}
+			cant = Math.round(cant*20000);
+			return cant;
+		};
+		
+		
+		document.getElementById("export").onclick = function() {
+		
+		var precio = document.getElementById('precio');
+		var cantidad = document.getElementById('cantidad');
+		var precioFloat = parseFloat(precio.value);
+		var cant = getCantidad(precioFloat);
+		model.aoa([["Precio:", precioFloat],
+		["Cantidad:", cant]]);
+		/* get array of arrays */
+		var data = model.aoa();
+		/* convert to worksheet */
+		var ws = XLSX.utils.aoa_to_sheet(data);
+		/* build new workbook */
+		var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "NombreAlumno");
+		/* write file */
+		XLSX.writeFile(wb, "alumno.xlsx")
+		};
+</script>
+</body>
+</html>
