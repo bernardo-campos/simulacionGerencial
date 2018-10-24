@@ -35,7 +35,25 @@ div.contenido{
 div.elemento{
     margin: 50px 0;
 }
+table{
+    text-align: center;
+    margin: auto;
+    /*margin-bottom: 40px;*/
+}
+/*table tr > td {
+    width: 200px;
+}*/
+td{
+    text-align: center;
+    /*width: 160px;*/
+}
 
+input[type=text].precio{
+    width: 60px;
+}
+p{
+    margin-bottom: 40px;
+}
 p span{
     font-size: 25px;
 }

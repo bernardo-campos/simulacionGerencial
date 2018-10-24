@@ -18,27 +18,41 @@
     </div>
 
     <div class="contenido">
-    <!--form action="index.html" id="prueba" method="post"-->
-        <div class="elemento" id="ingreso">
-            <p>Ingresar el precio al que deseas vender (entre 90 y 110): </p>
-            <input id="precio" type="text" placeholder="$" >
-            <!--input id="btnIngreso" type="submit" class="button" value="Ingresar"-->
-        </div>
+        <!--form action="index.html" id="prueba" method="post"-->
+            <div class="elemento" id="ingreso">
+                <p>Ingresar el precio al que deseas vender (entre 90 y 110): </p>
+                <table>
+                    <tr>
+                        <td>Período:</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Precio: $</td>
+                        <td><input type="text" id="precio1" class="precio"></td>
+                        <td><input type="text" id="precio2" class="precio"></td>
+                        <td><input type="text" id="precio3" class="precio"></td>
+                        <td><input type="text" id="precio4" class="precio"></td>
+                        <td><input type="text" id="precio5" class="precio"></td>
+                    </tr>
+                </table>
+                <!--input id="btnIngreso" type="submit" class="button" value="Ingresar"-->
+            </div>
 
-        <div class="elemento" id="salida">
-            <!--p>La cantidad vendida fue: </p>
-            <br>
-            <p><span id="cantidad">0</span> Unidades </p-->
-			<input id="export" type="submit" class="button" value="Exportar Excel" >
-        </div>
-    <!--/form-->
+            <div class="elemento" id="salida">
+                <!--p>La cantidad vendida fue: </p>
+                <br>
+                <p><span id="cantidad">0</span> Unidades </p-->
+    			<input id="export" type="submit" class="button" value="Exportar Excel" >
+            </div>
+        <!--/form-->
+    </div> <!--contenido-->
 
-    </div>
 
-
-    <footer>
-
-    </footer>
+    <footer></footer>
 
 	<script>
 		/* knockout setup */
@@ -51,43 +65,62 @@
 		ko.applyBindings(model);
 		/* do an update to confirm KO was loaded properly */
 
-		function getCantidad( precioFloat ){
-			var coeficientes = [1.40884976676092e-17,
-			7.79461734988912e-16,
-			3.88466972876584e-14,
-			1.66089868116125e-12,
-			5.52756634255933e-11,
-			1.10426162799791e-09,
-			-3.81114326320993e-11,
-			5.02746150976173e-13,
-			-2.99109951822521e-15,
-			6.74966202563564e-18];
+		function getCantidad( precioFloat )
+        {
+			var coeficientes = [
+                1.40884976676092e-17,
+    			7.79461734988912e-16,
+    			3.88466972876584e-14,
+    			1.66089868116125e-12,
+    			5.52756634255933e-11,
+    			1.10426162799791e-09,
+    			-3.81114326320993e-11,
+    			5.02746150976173e-13,
+    			-2.99109951822521e-15,
+    			6.74966202563564e-18];
 			var cant = 0.0;
-			for(var i=0; i < coeficientes.length ; i++){
-					cant += coeficientes[i] * precioFloat**i;
-			}
+			for(var i=0; i < coeficientes.length ; i++)
+                cant += coeficientes[i] * precioFloat**i;
 			cant = Math.round(cant*20000);
 			return cant;
 		};
-		
-		
-		document.getElementById("export").onclick = function() {
-		
-		var precio = document.getElementById('precio');
-		var cantidad = document.getElementById('cantidad');
-		var precioFloat = parseFloat(precio.value);
-		var cant = getCantidad(precioFloat);
-		model.aoa([["Precio:", precioFloat],
-		["Cantidad:", cant]]);
-		/* get array of arrays */
-		var data = model.aoa();
-		/* convert to worksheet */
-		var ws = XLSX.utils.aoa_to_sheet(data);
-		/* build new workbook */
-		var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "NombreAlumno");
-		/* write file */
-		XLSX.writeFile(wb, "alumno.xlsx")
+
+		document.getElementById("export").onclick = function()
+        {
+    		var precio1 = document.getElementById('precio1');
+            var precio2 = document.getElementById('precio2');
+            var precio3 = document.getElementById('precio3');
+            var precio4 = document.getElementById('precio4');
+            var precio5 = document.getElementById('precio5');
+
+    		var pf1 = parseFloat(precio1.value);
+            var pf2 = parseFloat(precio2.value);
+            var pf3 = parseFloat(precio3.value);
+            var pf4 = parseFloat(precio4.value);
+            var pf5 = parseFloat(precio5.value);
+
+    		var c1 = getCantidad(pf1);
+            var c2 = getCantidad(pf2);
+            var c3 = getCantidad(pf3);
+            var c4 = getCantidad(pf4);
+            var c5 = getCantidad(pf5);
+
+    		model.aoa(
+                [
+                    ["Periodo:", 1,2,3,4,5],
+                    ["Precio:", pf1,pf2,pf3,pf4,pf5],
+    		        ["Cantidad:", c1,c2,c3,c4,c5]
+                ]
+            );
+    		/* get array of arrays */
+    		var data = model.aoa();
+    		/* convert to worksheet */
+    		var ws = XLSX.utils.aoa_to_sheet(data);
+    		/* build new workbook */
+    		var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "NombreAlumno");
+    		/* write file */
+    		XLSX.writeFile(wb, "alumno.xlsx")
 		};
-</script>
+    </script>
 </body>
 </html>
