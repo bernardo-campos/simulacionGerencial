@@ -74,6 +74,7 @@
 
 		function getCantidad( precioFloat )
         {
+            //if isNum precioFloat
 			var coeficientes = [
                 1.40884976676092e-17,
     			7.79461734988912e-16,
@@ -95,11 +96,18 @@
 		document.getElementById("export").onclick = function()
         {
             var nombreAlumno = document.getElementById('nombreAlumno');
+            localStorage.setItem("nombreAlumno", nombreAlumno.value);
     		var precio1 = document.getElementById('precio1');
             var precio2 = document.getElementById('precio2');
             var precio3 = document.getElementById('precio3');
             var precio4 = document.getElementById('precio4');
             var precio5 = document.getElementById('precio5');
+
+            localStorage.setItem("precio1", precio1.value);
+            localStorage.setItem("precio2", precio2.value);
+            localStorage.setItem("precio3", precio3.value);
+            localStorage.setItem("precio4", precio4.value);
+            localStorage.setItem("precio5", precio5.value);
 
     		var pf1 = parseFloat(precio1.value);
             var pf2 = parseFloat(precio2.value);
@@ -113,6 +121,26 @@
             var c4 = getCantidad(pf4);
             var c5 = getCantidad(pf5);
 
+            if (Number.isNaN(pf1)){
+                pf1 = "";
+                c1 = "";
+            }
+            if (Number.isNaN(pf2)){
+                pf2 = "";
+                c2 = "";
+            }
+            if (Number.isNaN(pf3)){
+                pf3 = "";
+                c3 = "";
+            }
+            if (Number.isNaN(pf4)){
+                pf4 = "";
+                c4 = "";
+            }
+            if (Number.isNaN(pf5)){
+                pf5 = "";
+                c5 = "";
+            }
     		model.aoa(
                 [
                     ["Nombre:", nombreAlumno.value],
@@ -130,6 +158,24 @@
     		/* write file */
     		XLSX.writeFile(wb, nombreAlumno.value + ".xlsx")
 		};
+
+        document.addEventListener('DOMContentLoaded', function()
+        {
+            var NombreAlumno = localStorage.getItem("nombreAlumno");
+            var Precio1 = localStorage.getItem("precio1");
+            var Precio2 = localStorage.getItem("precio2");
+            var Precio3 = localStorage.getItem("precio3");
+            var Precio4 = localStorage.getItem("precio4");
+            var Precio5 = localStorage.getItem("precio5");
+
+            document.getElementById('nombreAlumno').value = NombreAlumno;
+		document.getElementById('precio1').value = Precio1;
+            document.getElementById('precio2').value = Precio2;
+            document.getElementById('precio3').value = Precio3;
+            document.getElementById('precio4').value = Precio4;
+            document.getElementById('precio5').value = Precio5;
+        });
+
     </script>
 </body>
 </html>
